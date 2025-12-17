@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hydraulic Cylinder Calculator</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        label { display: block; margin-top: 10px; }
+        input { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 20px; font-weight: bold; padding: 10px; background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+
+    <h2>Hydraulic Cylinder Force Calculator</h2>
+
+    <label for="pressure">System Pressure (Bar):</label>
+    <input type="number" id="pressure" placeholder="Enter pressure in Bar">
+
+    <label for="bore">Bore Diameter (mm):</label>
+    <input type="number" id="bore" placeholder="Enter diameter in mm">
+
+    <button onclick="calculateForce()">Calculate Force</button>
+
+    <div class="result" id="output">Result will appear here</div>
+
+    <script>
+        function calculateForce() {
+            // 1. Get values from the input boxes
+            var pressure = document.getElementById('pressure').value;
+            var bore = document.getElementById('bore').value;
+
+            // 2. The Math (Area = pi * r^2)
+            // We convert bore from mm to cm for easier calculation, or keep standard units
+            // Let's use: Force (kg) = Pressure (bar) x Area (cm^2) * 1.0197 (approx)
+            
+            if(pressure && bore) {
+                var radius = bore / 2;
+                var areaMm = Math.PI * (radius * radius); 
+                var areaCm = areaMm / 100; // Convert mm^2 to cm^2
+                
+                // Force in kgf = Pressure (bar) * Area (cm^2) * 1.01972
+                var forceKg = pressure * areaCm * 1.01972;
+                
+                // Force in Tonnes
+                var forceTon = forceKg / 1000;
+
+                // 3. Display the result
+                document.getElementById('output').innerHTML = 
+                    "Force: " + forceTon.toFixed(2) + " Tonnes (" + forceKg.toFixed(2) + " kg)";
+            } else {
+                document.getElementById('output').innerHTML = "Please enter both values.";
+            }
+        }
+    </script>
+
+</body>
+</html>
